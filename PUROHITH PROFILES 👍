@@ -1,0 +1,55 @@
+
+purohith_id | Number (e.g., 1, 2, 3) | Auto-generated ID for each purohith. Like a roll number.
+user_id | Number | Connects this profile to the main user account in your system.
+approval_status | Text (e.g., PENDING, APPROVED) | Shows if the purohith is approved by admin or not.
+experience_years | Number (e.g., 5, 10) | How many years of experience the purohith has.
+specialization | Text | Which poojas / rituals he is expert in (e.g., weddings, griha pravesh).
+languages_spoken | Text | Which languages he can speak (e.g., Telugu, Hindi, English).
+bio | Text | A short introduction / about him.
+address_line_1 | Text | House number, street etc.
+address_line_2 | Text (optional) | Area / landmark (optional extra address info).
+city | Text | City or town name.
+state | Text | State name.
+postal_code | Text (e.g., 500001) | PIN code.
+aadhaar_card_no | Text | Aadhaar number of the purohith.
+aadhaar_document_url | Text (link/path) | Link to uploaded Aadhaar file (photo/PDF) stored on server/cloud.
+pancard_document_url | Text (link/path) | Link to PAN card or other ID proof file.
+profile_photo_url | Text (link/path) | Link to the purohith’s profile photo.
+other_documents_json | JSON (structured data) | Used to store multiple extra documents (certificates, proofs) with their type & link.
+bank_name | Text | Purohith’s bank name.
+account_number | Text | Purohith’s bank account number.
+ifsc_code | Text | IFSC code of the bank branch.
+created_at | Date & Time | When the profile was first created (system fills this automatically).
+updated_at | Date & Time | When the profile was last updated (system fills/updates this automatically).
+
+SQL QUERY 👍
+
+CREATE TABLE purohith_profiles (
+purohith_id SERIAL PRIMARY KEY,
+user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+approval_status VARCHAR(50) NOT NULL DEFAULT 'PENDING',
+experience_years INT,
+specialization TEXT,
+languages_spoken VARCHAR(255),
+bio TEXT,
+address_line_1 VARCHAR(255),
+address_line_2 VARCHAR(255),
+city VARCHAR(100),
+state VARCHAR(100),
+postal_code VARCHAR(20),
+aadhaar_card_no VARCHAR(20),
+
+-- Document upload fields (store only file links/paths)
+aadhaar_document_url TEXT,
+pancard_document_url TEXT,
+profile_photo_url TEXT,
+other_documents_json JSONB,
+
+bank_name VARCHAR(100),
+account_number VARCHAR(100),
+ifsc_code VARCHAR(50),
+created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+Activity
