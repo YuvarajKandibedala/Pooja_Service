@@ -1,0 +1,31 @@
+| Column           | Meaning in simple terms                                           |
+| ---------------- | ----------------------------------------------------------------- |
+| `user_id`        | Auto number for each user (common for customer, purohith, admin). |
+| `full_name`      | Name of user (shown in profile, greetings, etc.).                 |
+| `phone`          | Login mobile number. Must be **unique** (no duplicates).          |
+| `email`          | Email ID. Optional but if present, must also be unique.           |
+| `password_hash`  | **Encrypted password** using bcrypt (never store plain password). |
+| `role`           | What type of user? `CUSTOMER`, `PUROHITH`, or `ADMIN`.            |
+| `is_active`      | Can this user log in? If false, account is blocked/deactivated.   |
+| `is_super_admin` | Only for admins. True = this admin can create other admins.       |
+| `created_at`     | When this user account was created.                               |
+| `updated_at`     | When this user account was last updated.                          |
+
+SQL QUERY 
+
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+
+    full_name VARCHAR(150) NOT NULL,
+    phone VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(150) UNIQUE,
+
+    password_hash VARCHAR(255) NOT NULL,   -- bcrypt hashed password
+    role VARCHAR(20) NOT NULL CHECK (role IN ('CUSTOMER', 'PUROHITH', 'ADMIN')),
+
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    is_super_admin BOOLEAN NOT NULL DEFAULT FALSE,  -- only for admins
+
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
