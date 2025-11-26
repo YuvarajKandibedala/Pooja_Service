@@ -1,0 +1,50 @@
+
+customer_id | Number (1, 2, 3, …) | Auto-generated ID for each customer (like a token/roll no).
+user_id | Number | Connects this customer profile to the main login account in your system.
+full_name | Text (e.g., “Ravi Kumar”) | Customer’s full name.
+phone_number | Text (e.g., +91 98765 43210) | Customer’s mobile number (primary contact).
+email | Text (e.g., abc@example.com) | Customer’s email address (optional but useful).
+address_line_1 | Text | Main part of address: house no, street, area.
+address_line_2 | Text (optional) | Extra address info: landmark, apartment name, etc.
+city | Text | City / town of customer.
+state | Text | State of customer.
+postal_code | Text (e.g., 500001) | PIN code.
+preferred_languages | Text (e.g., “Telugu, Hindi”) | Languages in which the customer prefers the pooja and communication.
+preferred_pooja_types | Text (e.g., “Griha Pravesh, Satyanarayana”) | Types of poojas they usually book or like. Helps in suggestions & matching purohiths.
+notes | Text | Any special instructions or notes about the customer (e.g., “Elderly parents, prefer morning only”).
+is_verified | TRUE / FALSE | Shows whether the customer’s phone/email is verified.
+kyc_document_url | Text (link/path) | If needed, a link to any ID proof or KYC document (optional – only if your platform requires it).
+created_at | Date & Time | When the customer profile was first created (set automatically).
+updated_at | Date & Time | When the customer profile was last updated (set automatically).
+
+SQL QUERY :
+
+CREATE TABLE customer_profiles (
+customer_id SERIAL PRIMARY KEY,
+user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+
+-- Basic info
+full_name VARCHAR(150) NOT NULL,
+phone_number VARCHAR(20) NOT NULL,
+email VARCHAR(150),
+
+-- Address (optional but useful for home pooja)
+address_line_1 VARCHAR(255),
+address_line_2 VARCHAR(255),
+city VARCHAR(100),
+state VARCHAR(100),
+postal_code VARCHAR(20),
+
+-- Pooja / preference info
+preferred_languages VARCHAR(255),     -- e.g. Hindi, Telugu
+preferred_pooja_types TEXT,           -- e.g. Griha Pravesh, Lakshmi Pooja
+notes TEXT,                           -- any special instructions
+
+-- Verification / trust
+is_verified BOOLEAN NOT NULL DEFAULT FALSE,   -- phone/email verified
+kyc_document_url TEXT,                        -- optional, if you want to store some KYC file
+
+-- Tracking
+created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
